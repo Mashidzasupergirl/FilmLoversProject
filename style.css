@@ -125,6 +125,7 @@ label {
     border-radius: 50%;
     margin-left: 20px;
     border: 3px dashed white;
+    text-align: center;
 }
 #head-text {
     font-family: 'Alfa Slab One', cursive;
@@ -335,7 +336,8 @@ input:focus {
 
 #page-conteiner-test-1 {
     background: linear-gradient(90deg, #effeff 0%, #dafeff  100%);
-    height: 100%;  
+    height: 100%; 
+    padding: 0 calc(50vw - 430px); 
 }
 
 #test-1-conteiner{
@@ -343,9 +345,9 @@ input:focus {
     height: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-items: space-around;
+    justify-items: center;
     align-items: center;
-    /* padding: 40px 50px; */
+    padding: 40px 0;
     
 
 }
@@ -469,7 +471,7 @@ input[type="radio"]:not(:checked) + label:after {
     width: 10px;
     height: 10px;
     border-radius: 100%;
-    background-color: #45e174;
+    background-color: #ff44b1;
 }
 input[type="checkbox"]:not(:checked) + label:after, 
 input[type="radio"]:not(:checked) + label:after {
@@ -494,6 +496,8 @@ input[type="radio"]:checked + label:after {
     width: 100px; */
     display: flex;
     justify-content: center;
+ 
+
 
 
 
@@ -505,16 +509,13 @@ input[type="radio"]:checked + label:after {
     font-size: 20px;
     font-weight: bold;
     padding: 20px 40px;
-    /* margin-top: 100px; */
-    margin-bottom: 60px;
     -webkit-appearance: none;
     appearance: none;
-    background-color: #426444;
+    background-color: #e145a3;
     color: #fff;
     border-radius: 10px;
     border: none;
     cursor: pointer;
-    position: relative;
     transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
     box-shadow: 0 2px 25px rgba(0, 0, 0, 0.5);
   }
@@ -535,7 +536,7 @@ input[type="radio"]:checked + label:after {
   .bubbly-button:before {
     display: none;
     top: -75%;
-    background-image: radial-gradient(circle, #00ff73 20%, transparent 20%), radial-gradient(circle, transparent 20%, #ff0081 20%, transparent 30%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, transparent 10%, #ff0081 15%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%);
+    background-image: radial-gradient(circle, #ffe2f3 20%, transparent 20%), radial-gradient(circle, transparent 20%, #ff0081 20%, transparent 30%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, transparent 10%, #ff0081 15%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%);
     background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%, 10% 10%, 18% 18%;
   }
   .bubbly-button:after {
@@ -546,7 +547,7 @@ input[type="radio"]:checked + label:after {
   }
   .bubbly-button:active {
     transform: scale(0.9);
-    background-color: #4f8062;
+    background-color: #f7b0d9;
     box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
   }
   .bubbly-button.animate:before {
@@ -594,6 +595,13 @@ input[type="radio"]:checked + label:after {
       display: flex;
       align-items: center;
       font-size: larger;
-      
-      
+    
+  }
+
+  .list-for-test {
+    background: linear-gradient(90deg, #effeff 0%, #dafeff  100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0 60px 0;
   }

@@ -38,7 +38,6 @@ card.id = `card-${i}`
 
 card.innerHTML=` 
    
-<h2>Which map is compass oriented?</h2>
 <img src=".//pics-for-test-1/test-pic-${i+1}.JPG" alt="">
 <div id="answers-conteiner">
     <div id="pic-${i}-a-conteiner">
@@ -63,7 +62,7 @@ test1Conteiner.appendChild(card)
 const page = document.getElementById('page-conteiner-test-1')
 const button = document.createElement('div')
 button.className="button-body"
-button.innerHTML=`<button class="bubbly-button">Check ◪ </button>`
+button.innerHTML=`<button class="bubbly-button">Film for today 🤗</button>`
 page.appendChild(button)
 
 
@@ -76,68 +75,214 @@ const answers = [
     'a',
     'c',
     'b',
-    'c',
-    'a',
-    'a',
-    'b',
-    'c',
-    'a',
     'c'
 ]
 
 
 
+const buttonOneFact = document.getElementById("one-fact")
 button.addEventListener('click', (event) => {
-  let rightAnswers = 0;
-  let i=0;
+ 
+  list.innerHTML = ""
+  createListItem(getRandomFact())
 
-  while (i<answers.length){
+})
 
-  const questiona = document.getElementById(`pic-${i}-a`)
-  const questionb = document.getElementById(`pic-${i}-b`)
-  const questionc = document.getElementById(`pic-${i}-c`)
-
-  let checkedElementa = questiona.checked
-  let checkedElementb = questionb.checked
-  let checkedElementc = questionc.checked
-
-  let answerOfUser = null
-
-  if (checkedElementa)
+const randomFacts = [
   {
-    answerOfUser = questiona.value
-  }
-  else if (checkedElementb)
+      id: "dfg",
+      fact: "Cruella",
+      liked: true,
+      score: 7.3
+  },
   {
-    answerOfUser = questionb.value
-  }
-  else if (checkedElementc)
+      id: "abc",
+      fact: "The Trial of the Chicago 7",
+      liked: false,
+      score: 7.6
+  },
   {
-    answerOfUser = questionc.value
+      id: "qwe",
+      fact: "Titanic",
+      liked: false,
+      score: 8.4
+  },
+  {
+      id: "rty",
+      fact: "Shutter Island",
+      liked: false,
+      score: 8.5
+  },
+  {
+      id: "uio",
+      fact: "The Hottie & the Nottie",
+      liked: true,
+      score: 2.8
+  },
+  {
+      id: "asd",
+      fact: "A Quiet Place Part II",
+      liked: true,
+      score: 6.8,
+  },
+  {
+      id: "fgh",
+      fact: "Sen to Chihiro no kamikakushi",
+      liked: false,
+      score: 8.4
+  },
+]
+
+
+
+// Translate Array<Object> to Array<String>
+const getFactStrings = () => {
+  const stringArr = [];
+
+  let i = 0;
+  while (i < randomFacts.length) {
+      const currentFactObject = randomFacts[i];
+
+      stringArr.push(currentFactObject.fact);
+
+      i++;
+  }    
+
+  return stringArr;
+}
+
+const factString = getFactStrings();
+
+// Function: find index by ID
+const findIndexById = (id) => {
+  let i = 0;
+  while (i<randomFacts.length ){
+              if (randomFacts[i].id === id)  {
+                  return i
+              }
+              i++  
+          }
+}
+
+
+// Like fact by id
+
+
+const likeFact = (id) => {
+  const indexById = findIndexById(id)
+       
+  const previousValue = randomFacts[indexById].liked;
+  if (randomFacts[indexById]){
+      randomFacts[indexById].liked = !previousValue
   }
 
-  console.log(answerOfUser)
-  
+  // Return new value in case we need it
+  return !previousValue;
+}
 
 
-  if (answerOfUser === answers[i]) {
-    rightAnswers++
+
+const getLikedFacts = () => {
+  const likedFactAray = []
+
+  let i=0
+  while (i < randomFacts.length){
+  if (randomFacts[i].liked === true) {
+      likedFactAray.push(randomFacts[i])
   }
-  else {
-    const backgroundOfCard = document.getElementById(`card-${i}`)
-    backgroundOfCard.style.backgroundColor = "#ffb4b4"
-  }
-
   i++
   }
-  numberOfAnswersConteiner.innerHTML=`Points: ${rightAnswers}`
+  return likedFactAray
+}
+
+const likedFacts = getLikedFacts()
+
+// Return high score facts
 
 
+const isHighScore = (fact) => {
+      if (fact.score > 7.5) {
+      return true;
+  }
+  return false
+}
 
+const getHighScoreFacts = () => {
+  const hightScoreFactsArray = []
+  let i=0
+  while (i<randomFacts.length){
+      if (isHighScore(randomFacts[i])) {
+          hightScoreFactsArray.push(randomFacts[i])
+      }
+      i++
+  }
  
-})
-let numberOfAnswersConteiner = document.createElement('div')
-numberOfAnswersConteiner.className = "number-of-answers"
+  return hightScoreFactsArray;
+}
+// Get Random Fact
+const getRandomInt = (max) => {
+  // Got from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+  return Math.floor(Math.random() * max);
+}
 
-button.appendChild(numberOfAnswersConteiner)
+
+const getRandomFact =() => {
+  return randomFacts[getRandomInt(randomFacts.length-1)]
+}
+
+// Print Liked Fact String
+
+const printLikedFacts = () => {
+  let i = 0;
+  while (i < randomFacts.length) {
+      if (randomFacts.liked) {
+          console.log(randomFacts[i].fact);
+      }
+      i++;
+  }
+}
+
+// Translate facts array into an object with keys like id
+
+const transformArrayToObject = () => {
+  const factObject = {}
+  let i=0;
+  while (i<randomFacts.length) {
+      factObject[randomFacts[i].id]  = randomFacts[i] 
+      i++ 
+  }   
+
+  return factObject;
+}
+
+const list = document.getElementById("list")
+
+const createListItem = (factObject) => {
+  const divForFact = document.createElement("div")
+  divForFact.classList.add("fact")
+  divForFact.id = `movie-item-id-${factObject.id}`
+  const textOfFact = document.createElement("p")
+  const heartOfFact = document.createElement("label")
+  textOfFact.innerHTML = `${factObject.fact} (score: ${factObject.score})` 
+  heartOfFact.innerHTML = factObject.liked ? '❤' : '🤍';
+  divForFact.appendChild(textOfFact)
+  divForFact.appendChild(heartOfFact)
+  list.appendChild(divForFact)
+
+  heartOfFact.addEventListener('click', (event) => {
+      const likedFact = document.querySelector(`#movie-item-id-${factObject.id} label`)
+      const newValue = likeFact(factObject.id)
+      likedFact.innerHTML = newValue ? '❤' : '🤍';
+  })
+} 
+
+
+
+
+
+
+
+
+
+  
 

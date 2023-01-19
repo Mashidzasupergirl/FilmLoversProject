@@ -11,7 +11,6 @@ body {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 .fact {
     height: auto;
@@ -645,7 +644,7 @@ input[type="radio"]:checked + label:after {
     }
     .fact {
         height: auto;
-        width: 90vw;
+        width: calc(100vw - 20px);
         background-color: white;
         margin-top: 7px;
         font-weight: 600;
@@ -653,7 +652,24 @@ input[type="radio"]:checked + label:after {
         border-radius: 5px;
         display: flex;
         justify-content: space-between;
-       
+    }
+    .input-area {
+        /* position: absolute;
+        bottom: 30px; */
+        display: flex;
+        flex-direction: column;
+        border: #D3BBDD dashed 2px;
+        border-radius: 5px;
+        padding: 7px;
+        width: calc(100vw - 20px);
+    }
+    #input-area-for-score, #input-area-for-text {
+        width: 300px;
+        margin-bottom: 5px;
+    }
+    .input-group-text {
+        width: 70px;
+        margin-bottom: 5px;
     }
 
 

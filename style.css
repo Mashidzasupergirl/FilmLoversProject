@@ -628,6 +628,16 @@ input[type="radio"]:checked + label:after {
     #head-buttons {
         margin: 0 10px;
     }
+    /* Search  */
+    #search-container {
+        margin: 10px;
+    }
+    /* Films container */
+    #films-list-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
 
-    
   }

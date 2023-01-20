@@ -1,4 +1,8 @@
-const randomFacts = [
+const saveToLocalStorage = (obj, key = 'randomFacts') => window.localStorage.setItem(key, JSON.stringify(obj));
+const getFromLocalStorage = (key = 'randomFacts') => JSON.parse(window.localStorage.getItem(key));
+
+
+const randomFacts = getFromLocalStorage() || [
     {
         id: "dfg",
         fact: "Cruella",
@@ -48,16 +52,12 @@ const randomFacts = [
 // Translate Array<Object> to Array<String>
 const getFactStrings = () => {
     const stringArr = [];
-
     let i = 0;
     while (i < randomFacts.length) {
         const currentFactObject = randomFacts[i];
-
         stringArr.push(currentFactObject.fact);
-
         i++;
-    }    
-
+    }
     return stringArr;
 }
 
@@ -66,26 +66,23 @@ const factString = getFactStrings();
 // Function: find index by ID
 const findIndexById = (id) => {
     let i = 0;
-    while (i<randomFacts.length ){
-                if (randomFacts[i].id === id)  {
-                    return i
-                }
-                i++  
-            }
+    while (i < randomFacts.length) {
+        if (randomFacts[i].id === id) {
+            return i
+        }
+        i++
+    }
 }
 
 
 // Like fact by id
-
-
 const likeFact = (id) => {
     const indexById = findIndexById(id)
-         
     const previousValue = randomFacts[indexById].liked;
-    if (randomFacts[indexById]){
+    if (randomFacts[indexById]) {
         randomFacts[indexById].liked = !previousValue
     }
-
+    saveToLocalStorage(randomFacts)
     // Return new value in case we need it
     return !previousValue;
 }
@@ -95,12 +92,12 @@ const likeFact = (id) => {
 const getLikedFacts = () => {
     const likedFactAray = []
 
-    let i=0
-    while (i < randomFacts.length){
-    if (randomFacts[i].liked === true) {
-        likedFactAray.push(randomFacts[i])
-    }
-    i++
+    let i = 0
+    while (i < randomFacts.length) {
+        if (randomFacts[i].liked === true) {
+            likedFactAray.push(randomFacts[i])
+        }
+        i++
     }
     return likedFactAray
 }
@@ -111,7 +108,7 @@ const likedFacts = getLikedFacts()
 
 
 const isHighScore = (fact) => {
-        if (fact.score > 7.5) {
+    if (fact.score > 7.5) {
         return true;
     }
     return false
@@ -119,14 +116,14 @@ const isHighScore = (fact) => {
 
 const getHighScoreFacts = () => {
     const hightScoreFactsArray = []
-    let i=0
-    while (i<randomFacts.length){
+    let i = 0
+    while (i < randomFacts.length) {
         if (isHighScore(randomFacts[i])) {
             hightScoreFactsArray.push(randomFacts[i])
         }
         i++
     }
-   
+
     return hightScoreFactsArray;
 }
 // Get Random Fact
@@ -136,8 +133,8 @@ const getRandomInt = (max) => {
 }
 
 
-const getRandomFact =() => {
-    return randomFacts[getRandomInt(randomFacts.length-1)]
+const getRandomFact = () => {
+    return randomFacts[getRandomInt(randomFacts.length - 1)]
 }
 
 // Print Liked Fact String
@@ -156,11 +153,11 @@ const printLikedFacts = () => {
 
 const transformArrayToObject = () => {
     const factObject = {}
-    let i=0;
-    while (i<randomFacts.length) {
-        factObject[randomFacts[i].id]  = randomFacts[i] 
-        i++ 
-    }   
+    let i = 0;
+    while (i < randomFacts.length) {
+        factObject[randomFacts[i].id] = randomFacts[i]
+        i++
+    }
 
     return factObject;
 }
@@ -173,7 +170,7 @@ const createListItem = (factObject) => {
     divForFact.id = `movie-item-id-${factObject.id}`
     const textOfFact = document.createElement("p")
     const heartOfFact = document.createElement("label")
-    textOfFact.innerHTML = `${factObject.fact} (score: ${factObject.score})` 
+    textOfFact.innerHTML = `${factObject.fact} (score: ${factObject.score})`
     heartOfFact.innerHTML = factObject.liked ? '❤' : '🤍';
     divForFact.appendChild(textOfFact)
     divForFact.appendChild(heartOfFact)
@@ -184,27 +181,27 @@ const createListItem = (factObject) => {
         const newValue = likeFact(factObject.id)
         likedFact.innerHTML = newValue ? '❤' : '🤍';
     })
-} 
+}
 
 // Function to mix 
 
 function shuffle(array) {
-    var currentIndex = array.length,  randomIndex;
-  
+    var currentIndex = array.length, randomIndex;
+
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-  
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-  
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex]];
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
     }
-      return array;
-  }
-  
+    return array;
+}
+
 // All facts
 
 
@@ -212,7 +209,7 @@ function createAllFacts() {
     shuffle(randomFacts);
     let i = 0;
     list.innerHTML = ""
-    while (i<randomFacts.length) {
+    while (i < randomFacts.length) {
         createListItem(randomFacts[i])
         i++
     }
@@ -221,7 +218,7 @@ function createAllFacts() {
 createAllFacts()
 
 const buttonAllFacts = document.getElementById("all-facts")
-buttonAllFacts.addEventListener('click', (event) => { 
+buttonAllFacts.addEventListener('click', (event) => {
     createAllFacts()
 })
 
@@ -237,12 +234,12 @@ buttonOneFact.addEventListener('click', (event) => {
 const buttonLikedFacts = document.getElementById("liked-facts")
 buttonLikedFacts.addEventListener('click', (event) => {
     list.innerHTML = ""
-    let i=0
-    while (i < randomFacts.length){
-    if (randomFacts[i].liked === true) {
-        createListItem(randomFacts[i])
-    }
-    i++
+    let i = 0
+    while (i < randomFacts.length) {
+        if (randomFacts[i].liked === true) {
+            createListItem(randomFacts[i])
+        }
+        i++
     }
 })
 
@@ -252,11 +249,11 @@ const buttonScoreMore80 = document.getElementById("score-more-80")
 buttonScoreMore80.addEventListener('click', (event) => {
     list.innerHTML = ""
     const highScoreFacts = getHighScoreFacts();
-    let i=0
-    while (i<highScoreFacts.length){
-    createListItem(highScoreFacts[i])
+    let i = 0
+    while (i < highScoreFacts.length) {
+        createListItem(highScoreFacts[i])
         i++
-       }   
+    }
 })
 
 // Sort by score;
@@ -264,20 +261,20 @@ buttonScoreMore80.addEventListener('click', (event) => {
 const buttonSortByScore = document.getElementById("sort-by-score")
 buttonSortByScore.addEventListener('click', (event) => {
     list.innerHTML = ""
-    randomFacts.sort(function(a,b){
+    randomFacts.sort(function (a, b) {
         if (a.score < b.score) {
             return 1;
-          }
-          if (a.score > b.score) {
+        }
+        if (a.score > b.score) {
             return -1;
-          }
-             return 0;
-      })
-           let i=0
-      while (i<randomFacts.length){
-            createListItem(randomFacts[i])
-            i++
-      }
+        }
+        return 0;
+    })
+    let i = 0
+    while (i < randomFacts.length) {
+        createListItem(randomFacts[i])
+        i++
+    }
 })
 
 
@@ -286,12 +283,12 @@ const saveButton = document.getElementById("save-button")
 window.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         handleSaveButtonClick()
-}
+    }
 })
 
 saveButton.addEventListener("click", () => {
     handleSaveButtonClick()
-}) 
+})
 
 
 const handleSaveButtonClick = () => {
@@ -303,73 +300,74 @@ const handleSaveButtonClick = () => {
     const inputDataScore = inputDivScore.value
     inputDivScore.value = ""
 
-    if (inputDataFilm != ""  && inputDataScore != "") {
+    if (inputDataFilm != "" && inputDataScore != "") {
 
-    pushFilmToArray(inputDataFilm, inputDataScore)
+        pushFilmToArray(inputDataFilm, inputDataScore)
 
-    let i = 0;
-    list.innerHTML = ""
-    while (i<randomFacts.length) {
-        createListItem(randomFacts[i])
-        i++
+        let i = 0;
+        list.innerHTML = ""
+        while (i < randomFacts.length) {
+            createListItem(randomFacts[i])
+            i++
+        }
     }
-    }  
 }
 
 const pushFilmToArray = (film, score) => {
     // Generator of random letters
 
-let alphabet = "abcdefghijklmnopqrstuvwxyz";
-let randomIndex1 = Math.floor(Math.random() * alphabet.length);
-let randomIndex2 = Math.floor(Math.random() * alphabet.length)
-let randomIndex3 = Math.floor(Math.random() * alphabet.length)
+    let alphabet = "abcdefghijklmnopqrstuvwxyz";
+    let randomIndex1 = Math.floor(Math.random() * alphabet.length);
+    let randomIndex2 = Math.floor(Math.random() * alphabet.length)
+    let randomIndex3 = Math.floor(Math.random() * alphabet.length)
 
-let randomLetter1 = alphabet[randomIndex1];
-let randomLetter2 = alphabet[randomIndex2];
-let randomLetter3 = alphabet[randomIndex3];
+    let randomLetter1 = alphabet[randomIndex1];
+    let randomLetter2 = alphabet[randomIndex2];
+    let randomLetter3 = alphabet[randomIndex3];
 
 
-let threeLetters = randomLetter1 + randomLetter2 + randomLetter3
+    let threeLetters = randomLetter1 + randomLetter2 + randomLetter3
 
     randomFacts.push({
         id: threeLetters,
         fact: film,
         liked: false,
         score: score
-})
+    })
+    saveToLocalStorage(randomFacts)
 }
 
 // Search function
- const inputSearch = document.getElementById("search-input")
- const searchButton = document.getElementById("search-button")
-  searchButton.addEventListener("click", () =>
- {  
-     console.log(inputSearch.value)
-     let dataFromInput = inputSearch.value
-     searchFunction(dataFromInput)
-     inputSearch.value = ""
- })   
- function searchFunction(dataFromInput) {
+const inputSearch = document.getElementById("search-input")
+const searchButton = document.getElementById("search-button")
+searchButton.addEventListener("click", () => {
+    console.log(inputSearch.value)
+    let dataFromInput = inputSearch.value
+    searchFunction(dataFromInput)
+    inputSearch.value = ""
+})
+function searchFunction(dataFromInput) {
     let i = 0;
     list.innerHTML = ""
     const filterArray = []
-    while (i<randomFacts.length) {
-    if (dataFromInput.toLowerCase() === randomFacts[i].fact.substring(0, dataFromInput.length).toLowerCase()){
-        filterArray.push(randomFacts[i])
+    while (i < randomFacts.length) {
+        if (dataFromInput.toLowerCase() === randomFacts[i].fact.substring(0, dataFromInput.length).toLowerCase()) {
+            filterArray.push(randomFacts[i])
+        }
+        i++
     }
-    i++
-     }
-     console.log(filterArray)
-     let n=0
-     while (n<filterArray.length){
-     createListItem(filterArray[n])
-         n++
-        }   
+    console.log(filterArray)
+    let n = 0
+    while (n < filterArray.length) {
+        createListItem(filterArray[n])
+        n++
+    }
 }
 window.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         console.log(inputSearch.value)
         let dataFromInput = inputSearch.value
         searchFunction(dataFromInput)
-        inputSearch.value = "" }
-    })
+        inputSearch.value = ""
+    }
+})
